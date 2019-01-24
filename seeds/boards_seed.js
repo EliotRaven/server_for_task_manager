@@ -7,6 +7,7 @@ for(var i = 1; i < 10; i++){
 
     fakeBoards.push({
         title,
+        user_id: i,
         created_at: timestamps,
         updated_at: timestamps
     })

@@ -1,3 +1,6 @@
+'use strict';
+
+require('./polyfills/index');
 const createError  = require('http-errors');
 const express      = require('express');
 const path         = require('path');
@@ -6,7 +9,7 @@ const logger       = require('morgan');
 const passport     = require('passport');
 const bodyParser   = require('body-parser');
 const session      = require("express-session");
-const cors         = require('cors')
+const cors         = require('cors');
 
 const app          = express();
 
@@ -36,7 +39,6 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// require('./config').init(app)
 require('./config')
 const auth = passport.authenticate('bearer', {session: false});
 
@@ -44,27 +46,13 @@ app.use('/api', auth, apiRouter);
 app.use('/auth', authRouter);
 app.use('/', indexRouter);
 
-//catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
-
 // error handler
 app.use(function(err, req, res, next) {
-
-  console.log('err handler', err)
   // set locals, only providing error in development
+    console.log(err)
   res.locals.message = err.sqlMessage || err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // if(err.status === 401) {
-  //   return res.redirect('/auth/login')
-  // }
-
-  // render the error page
-  // res.status(err.status || 500);
-  res.status(err.status || 500).send(err)
-  // res.render('error');
+  res.status(err.status || 500).json({error: res.locals.message})
 });
 
 module.exports = app;

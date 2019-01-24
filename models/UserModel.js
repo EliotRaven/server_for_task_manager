@@ -13,8 +13,9 @@ function beforeSave(user) {
 
 const UserModel = BaseModel.extend({
     tableName: 'users',
+    hasTimestamps: true,
     boards: function() {
-        return this.belongsToMany(BoardModel)
+        return this.hasMany(BoardModel)
     }
 }, {
     create: function (data) {
@@ -26,4 +27,4 @@ const UserModel = BaseModel.extend({
     }
 })
 
-module.exports = UserModel
+module.exports = UserModel;

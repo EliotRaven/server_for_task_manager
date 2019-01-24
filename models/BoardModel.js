@@ -4,11 +4,16 @@ const ListModel = require('./ListModel')
 
 const BoardModel = BaseModel.extend({
     tableName: 'boards',
-    boards: function() {
-        return this.belongsToMany(UserModel)
+    hasTimestamps: true,
+    users: function() {
+        return this.hasMany(UserModel)
     },
     lists: function () {
         return this.hasMany(ListModel)
+    }
+}, {
+    create: function (data, id) {
+        return this.forge({...data, user_id: id}).save()
     }
 })
 

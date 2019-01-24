@@ -1,5 +1,5 @@
 {
-  "name": "node-mvc",
+  "name": "node-api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
     "bookshelf": "^0.14.2",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",

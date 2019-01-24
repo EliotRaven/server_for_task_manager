@@ -6,11 +6,18 @@ module.exports = {
     show,
     update,
     remove,
+    getUsersBoards
 }
 
 function index (req, res, next) {
-    User.index().then(users=>{
+    User.index(req.query).then(users=>{
         res.status(200).json(users)
+    }).catch(next)
+}
+
+function getUsersBoards (req, res, next) {
+    User.forge({id: req.query.authuser_id}).fetch({withRelated: 'boards'}).then(user => {
+        res.status(200).json(user.toJSON().boards)
     }).catch(next)
 }
 

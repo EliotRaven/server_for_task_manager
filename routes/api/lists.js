@@ -4,8 +4,11 @@ var ListsController = require('../../controllers/lists.controller')
 
 router.get('/', ListsController.index);
 router.post('/', ListsController.store);
-router.get('/:lists', ListsController.show);
-router.put('/:lists', ListsController.update);
-router.delete('/:lists', ListsController.remove);
+router.get('/:list([0-9]*)', ListsController.show);
+router.put('/:list([0-9]*)', ListsController.update);
+router.delete('/:list([0-9]*)', ListsController.remove);
+
+// router.get('/', ListsController.boardsLists)
+router.get('/tasks', ListsController.listsTasks)
 
 module.exports = router;

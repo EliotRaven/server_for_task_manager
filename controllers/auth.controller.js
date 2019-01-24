@@ -5,7 +5,8 @@ module.exports = {
     registration,
     signIn,
     signUp,
-    logout
+    logout,
+    checkAuth
 };
 
 function login(req, res, next) {
@@ -36,4 +37,10 @@ function logout(req, res, next) {
         })
     }).catch(next);
 
+}
+
+function checkAuth(req, res, next) {
+    Auth.checkAuth(req.params.token)
+        .then(user => res.json(user))
+        .catch(next)
 }

@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 module.exports = {
     login,
     registration,
-    logout
+    logout,
+    checkAuth
 };
 
 function login({email, password}) {
@@ -52,9 +53,16 @@ function registration(user) {
 function logout(id, remember_token) {
     return new Promise((resolve, reject)=>{
         User.update(id, {remember_token}).then(user => {
-            console.log('user', user)
             if(user.error) return reject(user.error)
             return resolve(user[0])
-        })
+        }).catch(err => reject({error: err}))
+    })
+}
+
+function checkAuth(token) {
+    return new Promise((resolve, reject) => {
+        User.forge({remember_token: token}).fetch()
+            .then(user => resolve(user))
+            .catch(err => reject({error: err}))
     })
 }

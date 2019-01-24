@@ -10,8 +10,9 @@ const BaseModel = bookshelf.Model.extend({}, {
     find: function (data) {
         return this.where({...data}).fetchAll()
     },
-    findById: function (id) {
-        return this.forge({id}).fetch()
+    findById: function (id, relation) {
+        let relations = relation ? {withRelated: relation} : ''
+        return this.forge({id}).fetch(relations)
     },
     update: function (id, data) {
         return this.forge({id}).save({...data})
