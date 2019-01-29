@@ -24,7 +24,6 @@ function store (req, res, next) {
 
 function show (req, res, next) {
     Board.findById(req.params.board, 'lists').then(board => {
-        console.log(board.toJSON())
         res.status(200).json(board)
     }).catch(next)
 }

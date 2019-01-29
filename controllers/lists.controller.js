@@ -10,9 +10,9 @@ module.exports = {
 }
 
 function index (req, res, next) {
-    List.where('board_id', req.query.id).fetchAll({withRelated: ['tasks']}).then(lists => {
+    List.where('board_id', req.query.id).fetchAll().then(lists => {
         res.status(200).json(lists)
-    }).catch(next)
+    }).catch(error => next({error, message: 'Something went wrong.'}))
 }
 
 function store (req, res, next) {

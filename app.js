@@ -46,13 +46,18 @@ app.use('/api', auth, apiRouter);
 app.use('/auth', authRouter);
 app.use('/', indexRouter);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    res.status(404).json('Not found.');
+});
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-    console.log(err)
+  console.log('err ===========>', err)
   res.locals.message = err.sqlMessage || err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500).json({error: res.locals.message})
+  res.status(err.status || 500).json(res.locals.message)
 });
 
 module.exports = app;
