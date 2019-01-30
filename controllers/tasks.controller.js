@@ -32,6 +32,7 @@ function show (req, res, next) {
 }
 
 function update (req, res, next) {
+    if(!req.body.id) return res.status(422).json('Update data not received')
     Task.update(req.params.task, req.body).then(task => {
         res.status(200).json(task)
     }).catch(next)

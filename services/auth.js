@@ -30,22 +30,24 @@ function login({email, password}) {
                 return resolve(authUser)
             })
         }).catch(error => {
-            return reject(error)
+            return reject({message: 'Email or password are wrong'})
         })
     })
 }
 
 function registration(user) {
     return new Promise((resolve, reject)=>{
-        User.store(user).then( newUser => {
+        User.create(user).then( newUser => {
             if(newUser.error){
                 return reject(newUser.error)
             }
-            const token = jwt.sign({sub: newUser.id}, process.env.JWT_SECRET);
-            return resolve({
-                ...newUser[0],
-                token
-            });
+            const remember_token = jwt.sign({sub: newUser.toJSON().id}, process.env.JWT_SECRET);
+            return {...newUser.toJSON(), remember_token}
+        }).then(user => {
+            User.update(user.id, user).then(user => {
+                let {password, ...authUser} = user.toJSON();
+                return resolve(authUser)
+            })
         }).catch(err => {return reject({error: err})})
     })
 }

@@ -36,7 +36,6 @@ function update (req, res, next) {
 }
 
 function remove (req, res, next) {
-    console.log('req', req.params, req.query)
     List.destroy(req.params.list).then(list => {
         res.status(200).json({removed: true})
     }).catch(next)
